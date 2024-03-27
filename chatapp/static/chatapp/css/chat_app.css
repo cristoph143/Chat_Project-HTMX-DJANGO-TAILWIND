@@ -1,0 +1,38 @@
+/* chat_app.css */
+/* Custom styles for the chat room */
+#chat {
+    height: calc(100vh - 120px); /* Adjusted height for chat area */
+    overflow-y: scroll; /* Enable vertical scrolling */
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.message {
+    padding: 5px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    background-color: #f3f4f6;
+}
+
+.message.sent {
+    background-color: #d1e8e2;
+}
+
+/* Style for the input and button */
+input[type="text"] {
+    width: calc(100% - 70px); /* Adjust input width */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+button[type="submit"] {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4b5563;
+    color: #fff;
+    cursor: pointer;
+}

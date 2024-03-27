@@ -6,12 +6,13 @@
     <title>Chat Room</title>
     <script src="https://unpkg.com/htmx.org"></script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.0/dist/tailwind.min.css" rel="stylesheet">
+    <link href="/static/chatapp/css/chat_app.css" rel="stylesheet">
 </head>
 
-<body>
-    <div class="container mx-auto px-4">
-        <h1 class="text-xl font-bold my-4">Chat Room</h1>
-        <div id="chat">
+<body class="bg-gray-100 overflow-hidden">
+    <div class="container mx-auto px-4 py-8 h-screen flex flex-col justify-between">
+        <h1 class="text-2xl font-bold mb-4">Chat Room</h1>
+        <div id="chat" class="bg-white">
             <ul>
                 {% for message in messages %}
                 <li class="message">{{ message.author }}: {{ message.content }}</li>
@@ -19,18 +20,15 @@
             </ul>
         </div>
 
-        <form method="post" hx-post="/chat/send-message/" hx-target="#messages" hx-swap="outerHTML">
+        <form method="post" hx-post="/chat/send-message/" hx-target="#chat" hx-swap="outerHTML" onsubmit="clearInput()">
             {% csrf_token %}
-            <input type="text" name="message">
-            <button type="submit">Send</button>
+            <div class="flex">
+                <input type="text" name="message" placeholder="Type your message..." class="flex-1">
+                <button type="submit" class="ml-2">Send</button>
+            </div>
         </form>
-        <div id="messages">
-            {% for message in messages %}
-            <div>{{ message.author }}: {{ message.content }}</div>
-            {% endfor %}
-        </div>
-
     </div>
+    <script src="/static/chatapp/js/chat_app.js"></script>
 </body>
 
 </html>
