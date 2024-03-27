@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Chat Room</title>
+    <script src="https://unpkg.com/htmx.org"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.0/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container mx-auto px-4">
+        <h1 class="text-xl font-bold my-4">Chat Room</h1>
+        <div id="chat">
+            <ul>
+                {% for message in messages %}
+                <li class="message">{{ message.author }}: {{ message.content }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <form method="post" hx-post="/chat/send-message/" hx-target="#messages" hx-swap="outerHTML">
+            {% csrf_token %}
+            <input type="text" name="message">
+            <button type="submit">Send</button>
+        </form>
+        <div id="messages">
+            {% for message in messages %}
+            <div>{{ message.author }}: {{ message.content }}</div>
+            {% endfor %}
+        </div>
+
+    </div>
+</body>
+
+</html>
