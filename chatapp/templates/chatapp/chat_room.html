@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>Chat Room</title>
@@ -8,19 +7,28 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.0/dist/tailwind.min.css" rel="stylesheet">
     <link href="/static/chatapp/css/chat_app.css" rel="stylesheet">
 </head>
-
 <body class="bg-gray-100 overflow-hidden">
     <div class="container mx-auto px-4 py-8 h-screen flex flex-col justify-between">
         <h1 class="text-2xl font-bold mb-4">Chat Room</h1>
-        <div id="chat" class="bg-white">
-            <ul>
-                {% for message in messages %}
-                <li class="message">{{ message.author }}: {{ message.content }}</li>
-                {% endfor %}
-            </ul>
+        <!-- Load More Messages Button -->
+        <div id="load-more-container" class="text-center my-2">
+            <!-- Use the hx-get to specify the URL to fetch older messages -->
+            <!-- The hx-target to define where to insert the returned messages -->
+            <!-- The hx-swap to append the messages at the top -->
+            <!-- The hx-trigger to define when to make the request -->
+            <button hx-get="/chat/load-more-messages?last_message_id={{ messages.first.id }}"
+                    hx-target="#message-list"
+                    hx-swap="afterbegin"
+                    hx-trigger="click"
+                    class="load-more-messages bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Load More Messages
+            </button>
         </div>
 
-        <form method="post" hx-post="/chat/send-message/" hx-target="#chat" hx-swap="outerHTML" onsubmit="clearInput()">
+        {% include 'chatapp/_messages.html' %}
+
+        <!-- Chat message input form -->
+        <form method="post" hx-post="/chat/send-message/" hx-target="#message-list" hx-swap="beforeend">
             {% csrf_token %}
             <div class="flex">
                 <input type="text" name="message" placeholder="Type your message..." class="flex-1">
@@ -30,5 +38,4 @@
     </div>
     <script src="/static/chatapp/js/chat_app.js"></script>
 </body>
-
 </html>
